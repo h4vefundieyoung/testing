@@ -67,11 +67,11 @@ describe('BankAccount', () => {
   });
 
   test('fetchBalance should return number in case if request did not failed', async () => {
+    const { donor } = init;
     const mock = jest.spyOn(lodash, 'random');
     const mockedData = 500;
-    const { donor } = init;
 
-    mock.mockReturnValueOnce(mockedData);
+    mock.mockReturnValue(mockedData);
 
     expect(typeof (await donor.fetchBalance()) === 'number').toBeTruthy();
   });
