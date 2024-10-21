@@ -1,3 +1,5 @@
+import lodash from 'lodash';
+
 import {
   getBankAccount,
   InsufficientFundsError,
@@ -65,32 +67,33 @@ describe('BankAccount', () => {
   });
 
   test('fetchBalance should return number in case if request did not failed', async () => {
+    const mock = jest.spyOn(lodash, 'random');
+    const mockedData = 500;
     const { donor } = init;
-    try {
-      const data = await donor.fetchBalance();
-      expect(typeof data === 'number').toBeTruthy();
-    } catch (e) {
-      expect(e instanceof Error).toBeTruthy();
-    }
+
+    mock.mockReturnValueOnce(mockedData);
+
+    expect(typeof (await donor.fetchBalance()) === 'number').toBeTruthy();
   });
 
   test('should set new balance if fetchBalance returned number', async () => {
-    const { donor, balance } = init;
-    try {
-      await donor.synchronizeBalance();
-      expect(donor.getBalance() !== balance).toBeTruthy();
-    } catch (e) {
-      expect(e instanceof Error).toBeTruthy();
-    }
+    const { donor } = init;
+    const mockedData = Infinity;
+    const mock = jest.spyOn(donor, 'fetchBalance');
+    mock.mockResolvedValueOnce(mockedData);
+
+    await donor.synchronizeBalance();
+    expect(donor.getBalance()).toEqual(mockedData);
   });
 
   test('should throw SynchronizationFailedError if fetchBalance returned null', async () => {
-    const { donor, balance } = init;
-    try {
-      await donor.synchronizeBalance();
-      expect(donor.getBalance() !== balance).toBeTruthy();
-    } catch (e) {
-      expect(e instanceof SynchronizationFailedError).toBeTruthy();
-    }
+    const { donor } = init;
+    const mockedData = null;
+    const mock = jest.spyOn(donor, 'fetchBalance');
+
+    mock.mockResolvedValueOnce(mockedData);
+    expect(donor.synchronizeBalance()).rejects.toThrow(
+      SynchronizationFailedError,
+    );
   });
 });

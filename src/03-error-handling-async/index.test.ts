@@ -7,9 +7,9 @@ import {
 } from './index';
 
 describe('resolveValue', () => {
-  test('should resolve provided value', async () => {
-    const someValue = 1;
-    expect(await resolveValue(someValue)).toBe(someValue);
+  test('should resolve provided value', () => {
+    const value = 1;
+    expect(resolveValue(value)).resolves.toBe(value);
   });
 });
 

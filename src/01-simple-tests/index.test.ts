@@ -24,14 +24,14 @@ describe('simpleCalculator tests', () => {
   });
 
   test('should return null for invalid action', () => {
-    expect(simpleCalculator({ a: 8, b: 2, action: 'invalid action' })).toBe(
-      null,
-    );
+    expect(
+      simpleCalculator({ a: 8, b: 2, action: 'invalid action' }),
+    ).toBeNull();
   });
 
   test('should return null for invalid arguments', () => {
     expect(
       simpleCalculator({ a: 'invalid', b: 'invalid', action: Action.Divide }),
-    ).toBe(null);
+    ).toBeNull();
   });
 });

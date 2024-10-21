@@ -20,8 +20,8 @@ const testCases = [
   { a: 1, b: 1, action: null, expected: null },
 ];
 
-describe.each(testCases)('table-test', ({ a, b, action, expected }) => {
+describe.each(testCases)('table-test', ({ expected, ...args }) => {
   test('calculator main functionality', () => {
-    expect(simpleCalculator({ a, b, action })).toBe(expected);
+    expect(simpleCalculator(args)).toBe(expected);
   });
 });
